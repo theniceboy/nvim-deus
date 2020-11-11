@@ -333,7 +333,7 @@ local highlight_groups = {
 
 	--[[ 4.2.5. Folds]]
 	FoldColumn = {bg=gray_darker,             style='bold'},
-	Folded     = {bg=dsdark2,  fg=black, style='italic'},
+	Folded     = {bg=dsdark2,  fg=magenta, style='italic'},
 
 	--[[ 4.2.6. Diffs]]
 	DiffAdd    = {fg=green_dark, style='inverse'},
@@ -359,9 +359,9 @@ local highlight_groups = {
 	--[[ 4.2.10. Messages]]
 	ErrorMsg   = {fg=red,          style='bold'},
 	-- HintMsg    = {fg=magenta,      style='bold'},
-	InfoMsg    = {fg=pink_light,   style='bold'},
+	InfoMsg    = {fg=green},
 	ModeMsg    = {fg=yellow},
-	WarningMsg = {fg=orange,       style='bold'},
+	WarningMsg = {fg=orange},
 	Question   = {fg=orange_light, style='underline'},
 
 	--[[ 4.2.11. LSP ]]
