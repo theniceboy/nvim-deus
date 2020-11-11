@@ -257,7 +257,7 @@ local highlight_groups = {
 	TSParameter = {fg=dslight2, style='italic'},
 
 	--[[ 4.1.3. Syntax]]
-	Statement   = {fg=dslight0},
+	Statement   = {fg=red},
 	Conditional = {fg=red,      style='italic'},
 	Repeat      = {fg=red},
 	Label       = {fg=magenta_light1,     style='italic'},
@@ -620,6 +620,13 @@ local highlight_groups = {
 	vimHiKeyList   = 'Operator',
 	vimOption      = 'Define',
 	vimSetEqual    = 'Operator',
+	vimNotation    = 'Operator',
+	vimBracket     = 'Define',
+	vimMapModKey   = 'Operator',
+	vimFuncSID     = 'Operator',
+	vimSetSep      = 'Constant',
+	vimSep         = 'Constant',
+	vimContinue    = 'Constant',
 
 	--[[ 4.3.28. XML ]]
 	xmlAttrib  = 'htmlArg',
