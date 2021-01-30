@@ -711,6 +711,28 @@ local highlight_groups = {
 	TSStringRegex  = 'SpecialChar',
 	TSURI = 'Tag',
 	TSVariableBuiltin = 'Identifier',
+
+  -- [[ barbar.nvim ]]
+  BufferCurrent        = {fg=dslight1,    bg=dsdark0},
+  BufferCurrentMod     = {fg=orange,      bg=dsdark0},
+  BufferCurrentSign    = {fg=dslight3,    bg=dsdark0},
+  BufferCurrentTarget  = {fg=red,         bg=dsdark0, style=bold},
+  BufferVisible        = {fg=dslight3,    bg=dsdark0},
+  BufferVisibleMod     = {fg=orange,      bg=dsdark0},
+  BufferVisibleSign    = {fg=dslight3,    bg=dsdark0},
+  BufferVisibleTarget  = {fg=red,         bg=dsdark0, style=bold},
+  BufferInactive       = {fg=dslight4,    bg=dsdark3},
+  BufferInactiveMod    = {fg=orange,      bg=dsdark3},
+  BufferInactiveSign   = {fg=gray_darker, bg=dsdark3},
+  BufferInactiveTarget = {fg=red,         bg=dsdark3},
+  BufferTabpages       = {fg=dslight1,    bg=dsdark0, style=bold},
+  BufferTabpageFill    = {fg=green_line,  bg=dsdark0},
+
+  -- [[ dashboard-nvim ]]
+  dashboardFooter ={fg=dslight3},
+  dashboardHeader = {fg=yellow},
+  dashboardCenter = {fg=dslight1},
+  dashboardShortCut = {fg=dslight4},
 }
 
 --[[ Step 5: Terminal Colors
