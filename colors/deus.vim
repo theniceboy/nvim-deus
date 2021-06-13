@@ -141,12 +141,18 @@ local navyblue = {'#6699CC', 63,  'blue'}
 
 ```lua
 	<highlight group name> = {
-		bg=<color>, -- The color for the background, `NONE`, `FG` or `BG`
-		fg=<color>, -- The color for the foreground, `NONE`, `FG` or `BG`
-		blend=<integer> -- The |highlight-blend| value, if one is desired.
+		-- The color for the background, `NONE`, `FG` or `BG`
+		bg = <color>,
+
+		-- The color for the foreground, `NONE`, `FG` or `BG`
+		fg = <color>
+
+		-- The |highlight-blend| value, if one is desired.
+		[, blend = <integer>]
+
 		-- Style can be 'bold', 'italic', and more. See |attr-list| for more information.
 		-- It can also have a color, and/or multiple <cterm>s.
-		style=<cterm>|{<cterm> [, <cterm>] [color=<color>]})
+		[, style = <cterm>|{<cterm> (, <cterm>) [color=<color>]} ]
 	}
 ```
 
@@ -209,6 +215,27 @@ local navyblue = {'#6699CC', 63,  'blue'}
 	shouldn't remove any if you want a working colorscheme. Most of them are
 	described under |highlight-default|, some from |group-name|, and others from
 	common syntax groups.  Both help sections are good reads.
+	____________________________________________________________________________
+
+	If you want to inherit a specific attribute of another highlight group, you
+	can do the following:
+
+```lua
+	SpellBad = function(self)
+		local inherited_style = self.SpellRare.style
+		inherited_style.color = red
+
+		return {
+			bg=NONE,
+			fg=NONE,
+			style=inherited_style
+		}
+	end
+```
+
+	The function will be executed by |deus| and transformed into the
+	expected result.
+	____________________________________________________________________________
 
 	NOTE: |Replace-mode| will probably be useful here.
 
@@ -221,12 +248,10 @@ local navyblue = {'#6699CC', 63,  'blue'}
 	      the benefits of using this template.
 ]]
 
---[[ DO NOT EDIT `BG`, `FG`, or `NONE`.
-	Feel free to uncomment `BG` and `NONE`. They are not used by default so they are commented out.
-]]
--- local BG   = 'bg'
-local FG   = 'fg'
--- local NONE = 'NONE'
+--[[ DO NOT EDIT `BG` NOR `FG`. ]]
+local BG = 'bg'
+local FG = 'fg'
+local NONE = {}
 
 --[[ These are the ones you should edit. ]]
 -- This is the only highlight that must be defined separately.
@@ -314,7 +339,7 @@ local highlight_groups = {
 	Title       = {fg=dslight3},
 
 	--[[ 4.2.3. Conditional Line Highlighting]]
-	--Conceal={}
+	Conceal = 'NonText',
 	CursorLine      = {bg=gray_darker},
 	CursorLineNr    = {bg=gray_darker, fg=dslight1},
 	debugBreakpoint = 'ErrorMsg',
@@ -428,23 +453,58 @@ local highlight_groups = {
 	csUnspecifiedStatement = 'Statement',
 	csXmlTag     = 'Define',
 	csXmlTagName = 'Define',
+	csQuote = 'Delimiter',
+	razorCode = 'PreProc',
+	razorcsLHSMemberAccessOperator = 'Noise',
+	razorcsRHSMemberAccessOperator = 'razorcsLHSMemberAccessOperator',
+	razorcsStringDelimiter = 'razorhtmlValueDelimiter',
+	razorcsTypeNullable = 'Special',
+	razorcsUnaryOperatorKeyword = 'Operator',
+	razorDelimiter = 'Delimiter',
+	razorEventAttribute = 'PreCondit',
+	razorFor  = 'razorIf',
+	razorhtmlAttribute = 'htmlArg',
+	razorhtmlAttributeOperator = 'Operator',
+	razorhtmlTag = 'htmlTag',
+	razorhtmlValueDelimiter = 'Delimiter',
+	razorIf  = 'PreCondit',
+	razorImplicitExpression = 'PreProc',
+	razorLine = 'Constant',
+	razorUsing = 'Include',
 
 	--[[ 4.3.4. CSS ]]
 	cssBraces     = 'Delimiter',
-	cssProp       = 'Keyword',
+	cssProp       = 'Label',
 	cssSelectorOp = 'Operator',
-	cssTagName    = 'Type',
-	cssTagName    = 'htmlTagName',
+	cssTagName    = 'Structure',
 	scssAmpersand = 'Special',
-	scssAttribute = 'Label',
+	scssAttribute = 'Noise',
 	scssBoolean   = 'Boolean',
 	scssDefault   = 'Keyword',
-	scssElse      = 'PreCondit',
-	scssIf        = 'PreCondit',
-	scssInclude   = 'Include',
-	scssSelectorChar = 'Operator',
-	scssSelectorName = 'Identifier',
-	scssVariable  = 'Define',
+	scssElse      = 'scssIf',
+	scssMixinName      = function(self)
+		local super = self.cssClassName
+		return {bg=super.bg, fg=super.fg, style='Italic'}
+	end,
+	scssIf                 = 'PreCondit',
+	scssInclude            = 'Include',
+	cssClassName           = 'Identifier',
+	cssClassNameDot        = 'Noise',
+	cssFlexibleBoxAttr     = 'cssAttr',
+	cssFunctionComma       = 'Noise',
+	cssImportant           = 'Exception',
+	cssNoise               = 'Noise',
+	cssPseudoClass         = 'Special',
+	cssPseudoClassId       = 'cssSelectorOp',
+	cssUnitDecorators      = 'Type',
+	cssAtRule              = 'PreCondit',
+	cssAttr                = 'Keyword',
+	cssAttrComma           = 'Noise',
+	cssAttrRegion          = 'Keyword',
+	scssSelectorChar       = 'Delimiter',
+	scssDefinition         = 'PreProc',
+	scssSelectorName       = 'Identifier',
+	scssVariable           = 'Define',
 	scssVariableAssignment = 'Operator',
 
 	--[[ 4.3.5. Dart ]]
@@ -464,7 +524,7 @@ local highlight_groups = {
 	goFormatSpecifier       = 'Character',
 	goFunction              = 'Function',
 	goFunctionCall          = 'goFunction',
-	goFunctionReturn        = {},
+	goFunctionReturn        = NONE,
 	goMethodCall            = 'goFunctionCall',
 	goParamType             = 'goReceiverType',
 	goPointerOperator       = 'SpecialChar',
@@ -506,6 +566,7 @@ local highlight_groups = {
 
 	--[[ 4.3.11. JSON ]]
 	jsonBraces = 'luaBraces',
+	jsonEscape = 'SpecialChar',
 	jsonKeywordMatch = 'Operator',
 	jsonNull   = 'Constant',
 	jsonQuote  = 'Delimiter',
@@ -525,10 +586,15 @@ local highlight_groups = {
 	luaFuncParens   = 'Delimiter',
 	luaFuncTable    = 'Structure',
 	luaLocal        = 'Type',
-	luaNoise        = 'Operator',
-	luaParens       = 'Delimiter',
-	luaSpecialTable = 'StorageClass',
+	luaNoise  = 'Delimiter',
+	luaParens = 'Delimiter',
+	luaSpecialTable = 'Structure',
 	luaSpecialValue = 'Function',
+	luaIn     = 'luaRepeat',
+	luaStringLongTag = function(self)
+		local delimiter = self.Delimiter
+		return {bg=delimiter.bg, fg=delimiter.fg, style='italic'}
+	end,
 
 	--[[ 4.3.12. Make ]]
 	makeCommands   = 'Statment',
@@ -541,15 +607,16 @@ local highlight_groups = {
 	markdownH4          = {fg=green_dark, style='bold'},
 	markdownH5          = {fg=cyan, style='bold'},
 	markdownH6          = {fg=purple_light, style='bold'},
-	mkdBold             = 'SpecialComment',
+	mkdBold             = 'Ignore',
 	mkdCode             = 'Keyword',
 	mkdCodeDelimiter    = 'mkdBold',
 	mkdCodeStart        = 'mkdCodeDelimiter',
 	mkdCodeEnd          = 'mkdCodeStart',
 	mkdHeading          = 'Delimiter',
 	mkdItalic           = 'mkdBold',
+	mkdLineBreak        = 'NonText',
 	mkdListItem         = 'Special',
-	mkdRule             = 'Underlined',
+	mkdRule = function(self) return {fg=self.Ignore.fg, style={'underline', color=self.Delimiter.fg}} end,
 	texMathMatcher      = 'Number',
 	texMathZoneX        = 'Number',
 	texMathZoneY        = 'Number',
@@ -607,7 +674,9 @@ local highlight_groups = {
 	--[[ 4.3.26. TOML ]]
 	tomlComment = 'Comment',
 	tomlKey     = 'Label',
-	tomlTable   = 'StorageClass',
+	tomlTable   = 'Structure',
+	tomlDate  = 'Special',
+	tomlFloat = 'Float',
 
 	--[[ 4.3.27. VimScript ]]
 	helpSpecial    = 'Special',
@@ -618,7 +687,7 @@ local highlight_groups = {
 	vimHiGui       = 'vimHiCterm',
 	vimHiGuiFgBg   = 'vimHiGui',
 	vimHiKeyList   = 'Operator',
-	vimOption      = 'Define',
+	vimIsCommand   = 'Identifier',
 	vimSetEqual    = 'Operator',
 	vimNotation    = 'Operator',
 	vimBracket     = 'Define',
@@ -627,6 +696,13 @@ local highlight_groups = {
 	vimSetSep      = 'Constant',
 	vimSep         = 'Constant',
 	vimContinue    = 'Constant',
+	vimCmdSep      = 'Delimiter',
+	vimFunction    = 'Function',
+	vimSetSep      = 'Delimiter',
+	vimUserFunc    = 'vimFunction',
+	vimOption      = 'Keyword',
+	vimScriptDelim = 'Ignore',
+	vimSet         = 'String',
 
 	--[[ 4.3.28. XML ]]
 	xmlAttrib  = 'htmlArg',
@@ -644,6 +720,7 @@ local highlight_groups = {
 
 	--[[ 4.3.30. dos INI ]]
 	dosiniHeader = 'Title',
+	dosiniLabel  = 'Label',
 
 	--[[ 4.3.31. Crontab ]]
 	crontabDay  = 'StorageClass',
@@ -653,7 +730,73 @@ local highlight_groups = {
 	crontabMnth = 'Structure',
 
 	--[[ 4.3.32. PlantUML ]]
-	plantumlColonLine = {},
+	plantumlArrowLR   = 'Statement',
+	plantumlColonLine = NONE,
+	plantumlMindmap   = 'Label',
+	plantumlMindmap2  = 'Label',
+
+	--[[ 4.3.33. YAML ]]
+	yamlKey = 'Label',
+
+	--[[ 4.3.34. Git ]]
+	diffAdded = 'DiffAdd',
+	diffRemoved = 'DiffDelete',
+	gitcommitHeader = 'SpecialComment',
+	gitcommitDiscardedFile = 'gitcommitSelectedFile',
+	gitcommitOverFlow = 'Error',
+	gitcommitSelectedFile = 'Directory',
+	gitcommitSummary  = 'Title',
+	gitcommitUntrackedFile = 'gitcommitSelectedFile',
+	gitconfigAssignment = 'String',
+	gitconfigEscape = 'SpecialChar',
+	gitconfigNone  = 'Operator',
+	gitconfigSection = 'Structure',
+	gitconfigVariable = 'Label',
+	gitrebaseBreak = 'Keyword',
+	gitrebaseCommit = 'Tag',
+	gitrebaseDrop = 'Exception',
+	gitrebaseEdit = 'Define',
+	gitrebaseExec = 'PreProc',
+	gitrebaseFixup = 'gitrebaseSquash',
+	gitrebaseMerge = 'PreProc',
+	gitrebasePick  = 'Include',
+	gitrebaseReset = 'gitrebaseLabel',
+	gitrebaseReword  = 'gitrebasePick',
+	gitrebaseSquash  = 'Macro',
+	gitrebaseSummary = 'Title',
+
+	--[[ 4.3.35. Vimtex ]]
+	texMathRegion = 'Number',
+	texMathSub   = 'Number',
+	texMathSuper = 'Number',
+	texMathRegionX  = 'Number',
+	texMathRegionXX = 'Number',
+
+	--[[ 4.3.36. Coq ]]
+	coqConstructor   = 'Constant',
+	coqDefBinderType = 'coqDefType',
+	coqDefContents1  = 'coqConstructor',
+	coqDefType  = 'Typedef',
+	coqIndBinderTerm  = 'coqDefBinderType',
+	coqIndConstructor = 'Delimiter',
+	coqIndTerm = 'Type',
+	coqKwd = 'Keyword',
+	coqKwdParen   = 'Function',
+	coqProofDelim = 'coqVernacCmd',
+	coqProofDot   = 'coqTermPunctuation',
+	coqProofPunctuation = 'coqTermPunctuation',
+	coqRequire = 'Include',
+	coqTactic  = 'Operator',
+	coqTermPunctuation = 'Delimiter',
+	coqVernacCmd = 'Statement',
+	coqVernacPunctuation = 'coqTermPunctuation',
+
+	--[[ 4.3.37 Help ]]
+	helpHeader = 'Label',
+	helpOption = 'Keyword',
+	helpHeadline = 'Title',
+	helpSectionDelim = 'Delimiter',
+	helpHyperTextJump = 'Underlined',
 
 	--[[ 4.4. Plugins
 		Everything in this section is OPTIONAL. Feel free to remove everything
@@ -665,14 +808,14 @@ local highlight_groups = {
 	ALEWarningSign = 'WarningMsg',
 
 	--[[ 4.4.2. coc.nvim ]]
-	CocErrorHighlight   = {style={'undercurl', color='red'}},
-	CocHintHighlight    = {style={'undercurl', color='magenta'}},
-	CocInfoHighlight    = {style={'undercurl', color='pink_light'}},
-	CocWarningHighlight = {style={'undercurl', color='orange'}},
-	CocErrorSign   = 'ALEErrorSign',
-	CocHintSign    = 'HintMsg',
-	CocInfoSign    = 'InfoMsg',
-	CocWarningSign = 'ALEWarningSign',
+	CocErrorHighlight   = {style={'undercurl', color=red}},
+	CocHintHighlight    = {style={'undercurl', color=magenta}},
+	CocInfoHighlight    = {style={'undercurl', color=pink_light}},
+	CocWarningHighlight = {style={'undercurl', color=orange}},
+	CocErrorSign        = 'ALEErrorSign',
+	CocHintSign         = 'HintMsg',
+	CocInfoSign         = 'InfoMsg',
+	CocWarningSign      = 'ALEWarningSign',
 
 	--[[ 4.4.2. vim-jumpmotion / vim-easymotion ]]
 	EasyMotion = 'IncSearch',
@@ -691,7 +834,7 @@ local highlight_groups = {
 
 	--[[ 4.4.5. vim-indent-guides ]]
 	IndentGuidesOdd  = {bg=gray_darker},
-	IndentGuidesEven = {bg=gray_dark},
+	IndentGuidesEven = {bg=gray},
 
 	--[[ 4.4.7. NERDTree ]]
 	NERDTreeCWD = 'Label',
@@ -712,27 +855,44 @@ local highlight_groups = {
 	TSURI = 'Tag',
 	TSVariableBuiltin = 'Identifier',
 
-  -- [[ barbar.nvim ]]
-  BufferCurrent        = {fg=dslight1,    bg=dsdark0},
-  BufferCurrentMod     = {fg=orange,      bg=dsdark0},
-  BufferCurrentSign    = {fg=dslight3,    bg=dsdark0},
-  BufferCurrentTarget  = {fg=red,         bg=dsdark0, style=bold},
-  BufferVisible        = {fg=dslight3,    bg=dsdark0},
-  BufferVisibleMod     = {fg=orange,      bg=dsdark0},
-  BufferVisibleSign    = {fg=dslight3,    bg=dsdark0},
-  BufferVisibleTarget  = {fg=red,         bg=dsdark0, style=bold},
-  BufferInactive       = {fg=dslight4,    bg=dsdark3},
-  BufferInactiveMod    = {fg=orange,      bg=dsdark3},
-  BufferInactiveSign   = {fg=gray_darker, bg=dsdark3},
-  BufferInactiveTarget = {fg=red,         bg=dsdark3},
-  BufferTabpages       = {fg=dslight1,    bg=dsdark0, style=bold},
-  BufferTabpageFill    = {fg=green_line,  bg=dsdark0},
+	--[[ 4.4.9. barbar.nvim ]]
+	BufferCurrent       = 'TabLineSel',
+	BufferCurrentIndex  = function(self) return {fg=self.InfoMsg.fg, bg=self.BufferCurrent.bg} end,
+	BufferCurrentMod    = {fg=tan, bg=black, style='bold'},
+	BufferCurrentSign   = 'HintMsg',
+	BufferCurrentTarget = 'BufferCurrentSign',
 
-  -- [[ dashboard-nvim ]]
-  dashboardFooter ={fg=dslight3},
-  dashboardHeader = {fg=yellow},
-  dashboardCenter = {fg=dslight1},
-  dashboardShortCut = {fg=dslight4},
+	BufferInactive       = 'BufferVisible',
+	BufferInactiveIndex  = function(self) return {fg=self.InfoMsg.fg, bg=self.BufferInactive.bg} end,
+	BufferInactiveMod    = 'BufferVisibleMod',
+	BufferInactiveSign   = 'BufferVisibleSign',
+	BufferInactiveTarget = 'BufferVisibleTarget',
+
+	BufferTabpages    = {fg=BG, bg=FG, style='bold'},
+	BufferTabpageFill = 'TabLineFill',
+
+	BufferVisible       = 'TabLine',
+	BufferVisibleIndex  = function(self) return {fg=self.InfoMsg.fg, bg=self.BufferVisible.bg} end,
+	BufferVisibleMod    = {fg=white, bg=gray_darker, style='italic'},
+	BufferVisibleSign   = 'BufferVisible',
+	BufferVisibleTarget = function(self)
+		local super = self.BufferVisibleMod
+		return {fg=super.fg, bg=super.bg, style='bold'}
+	end,
+
+	--[[ 4.4.10. vim-sandwhich ]]
+	OperatorSandwichChange = 'DiffText',
+
+	--[[ 4.4.11. Fern ]]
+	FernBranchText = 'Directory',
+
+	--[[ 4.4.12. LSPSaga ]]
+	DefinitionCount = 'Number',
+	DefinitionIcon = 'Special',
+	ReferencesCount = 'Number',
+	ReferencesIcon = 'DefinitionIcon',
+	TargetFileName = 'Directory',
+	TargetWord = 'Title',
 }
 
 --[[ Step 5: Terminal Colors
@@ -771,6 +931,24 @@ local highlight_groups = {
 	this will inevitably cause usability issues so… be careful.
 ]]
 
+local terminal_ansi_colors = {
+	[1]  = black,
+	[2]  = red_dark,
+	[3]  = green_dark,
+	[4]  = orange,
+	[5]  = blue,
+	[6]  = magenta_dark,
+	[7]  = teal,
+	[8]  = gray,
+	[9]  = gray_dark,
+	[10] = red,
+	[11] = green,
+	[12] = yellow,
+	[13] = turqoise,
+	[14] = purple,
+	[15] = cyan,
+	[16] = gray_light
+}
 
 --[[ Step 5: Sourcing
 	When you wish to load your colorscheme, simply add this folder with a plugin manager
@@ -832,10 +1010,10 @@ local highlight_groups = {
 		is correctly set up if they want to enjoy the best possible experience.
 ]]
 
--- Change 'deus' to the name of your colorscheme as defined in step 1.
-require('deus')(
+require(vim.g.colors_name)(
 	highlight_group_normal,
-	highlight_groups
+	highlight_groups,
+	terminal_ansi_colors
 )
 
 -- Thanks to Romain Lafourcade (https://github.com/romainl) for the original template (romainl/vim-rnb).
