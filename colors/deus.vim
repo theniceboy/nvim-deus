@@ -332,7 +332,7 @@ local highlight_groups = {
 	StatusLineTermNC = 'StatusLineNC',
 
 	--[[ 4.2.2. Separators]]
-	VertSplit   = {fg=dslight1},
+	VertSplit   = {fg=dsdark4},
 	TabLine     = {bg=gray_darker, fg=dsdark4},
 	TabLineFill = {bg=blue},
 	TabLineSel  = {fg=dslight3},
