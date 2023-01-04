@@ -81,6 +81,67 @@ vim.g.colors_name = 'deus'
 	NOTE: |Replace-mode| will probably be useful here.
 ]]
 
+vim.cmd([[
+	highlight! link @annotation TSAnnotation
+	highlight! link @attribute TSAttribute
+	highlight! link @boolean TSBoolean
+	highlight! link @character TSCharacter
+	highlight! link @comment TSComment
+	highlight! link @conditional TSConditional
+	highlight! link @constant TSConstant
+	highlight! link @constant.builtin TSConstBuiltin
+	highlight! link @constant.macro TSConstMacro
+	highlight! link @constructor TSConstructor
+	highlight! link @exception TSException
+	highlight! link @field TSField
+	highlight! link @float TSFloat
+	highlight! link @function TSFunction
+	highlight! link @function.builtin TSFuncBuiltin
+	highlight! link @function.macro TSFuncMacro
+	highlight! link @include TSInclude
+	highlight! link @keyword TSKeyword
+	highlight! link @keyword.return TSKeywordReturn
+	highlight! link @keyword.function TSKeywordFunction
+	highlight! link @keyword.operator TSKeywordOperator
+	highlight! link @label TSLabel
+	highlight! link @method TSMethod
+	highlight! link @namespace TSNamespace
+	highlight! link @none TSNone
+	highlight! link @number TSNumber
+	highlight! link @operator TSOperator
+	highlight! link @parameter TSParameter
+	highlight! link @parameter.reference TSParameterReference
+	highlight! link @property TSProperty
+	highlight! link @punctuation.bracket TSPunctBracket
+	highlight! link @punctuation.delimiter TSPunctDelimiter
+	highlight! link @punctuation.special TSPunctSpecial
+	highlight! link @repeat TSRepeat
+	highlight! link @storageclass TSStorageClass
+	highlight! link @storageclass.lifetime TSStorageClassLifetime
+	highlight! link @string TSString
+	highlight! link @string.escape TSStringEscape
+	highlight! link @string.regex TSStringRegex
+	highlight! link @structure TSStructure
+	highlight! link @symbol TSSymbol
+	highlight! link @tag TSTag
+	highlight! link @tag.attribute TSAttribute
+	highlight! link @tag.delimiter TSTagDelimiter
+	highlight! link @text TSText
+	highlight! link @strike TSStrike
+	highlight! link @math TSMath
+	highlight! link @type TSType
+	highlight! link @type.builtin TSTypeBuiltin
+	highlight! link @type.qualifier TSTypeQualifier
+	highlight! link @uri TSURI
+	highlight! link @variable TSVariable
+	highlight! link @variable.builtin TSVariableBuiltin
+	highlight! link @variable.python pythonTSVariable
+	highlight! link @decorator.python pythonTSDecorator
+	highlight! link @variable.rust rustTSVariable
+	highlight! link @conditional.javascript javascriptTSConditional
+	highlight! link @variable.javascript javascriptTSVariable
+]])
+
 local black       = {'#2C323B', 235, 'black'}
 local gray_dark   = {'#3c3836', 237, 'darkgrey'}
 local gray_darker = {'#242a32', 239, 'gray'}
@@ -275,10 +336,6 @@ local highlight_groups = {
 	--[[ 4.1.2. Identifiers]]
 	Identifier = {fg=blue},
 	Function   = {fg=green, style='bold'},
-	TSVariableBuiltin = {fg=orange},
-	TSConstBuiltin = {fg=orange, style='italic'},
-	TSAttribute = {fg=blue, style='italic'},
-	TSParameter = {fg=dslight2, style='italic'},
 
 	--[[ 4.1.3. Syntax]]
 	Statement   = {fg=red},
@@ -846,13 +903,64 @@ local highlight_groups = {
 	NERDTreeLinkTarget = 'Tag',
 
 	--[[ 4.4.8. nvim-treesitter ]]
-	TSConstBuiltin = 'Constant',
-	TSConstructor  = 'Typedef',
-	TSFuncBuiltin  = 'Function',
-	TSStringEscape = 'Character',
-	TSStringRegex  = 'SpecialChar',
-	TSURI = 'Tag',
-	TSVariableBuiltin = 'Identifier',
+	TSAnnotation = { fg = blue },
+	TSAttribute = { fg = blue, style='italic' },
+	TSBoolean = { fg = purple },
+	TSCharacter = { fg = purple },
+	TSComment = { fg = gray },
+	TSConditional = { fg = red },
+	-- TSConstant = { fg = white },
+	TSConstBuiltin = { fg = orange },
+	-- TSConstMacro = { fg = white },
+	-- TSConstructor = { fg = white },
+	TSException = { fg = red },
+	-- TSField = { fg = white },
+	-- TSFloat = { fg = white },
+	TSFunction = { fg = green, style = 'bold' },
+	-- TSFuncBuiltin = { fg = white },
+	-- TSFuncMacro = { fg = white },
+	TSInclude = { fg = red },
+	TSKeyword = { fg = red },
+	TSKeywordReturn = { fg = red },
+	TSKeywordFunction = { fg = red },
+	TSKeywordOperator = { fg = red },
+	-- TSLabel = { fg = white },
+	TSMethod = { fg = green, style = 'bold' },
+	-- TSNamespace = { fg = white },
+	-- TSNone = { fg = white },
+	TSNumber = { fg = purple },
+	TSOperator = { fg = blue },
+	TSParameter = { fg = dslight3, style = 'italic' },
+	-- TSParameterReference = { fg = white },
+	TSProperty = { fg = blue },
+	-- TSPunctBracket = { fg = white },
+	-- TSPunctDelimiter = { fg = white },
+	-- TSPunctSpecial = { fg = white },
+	TSRepeat = { fg = red },
+	-- TSStorageClass = { fg = white },
+	-- TSStorageClassLifetime = { fg = white },
+	TSString = { fg = green },
+	-- TSStringEscape = { fg = white },
+	-- TSStringRegex = { fg = white },
+	-- TSStructure = { fg = white },
+	-- TSSymbol = { fg = white },
+	-- TSTag = { fg = white },
+	-- TSTagDelimiter = { fg = white },
+	-- TSText = { fg = white },
+	-- TSStrike = { fg = white },
+	-- TSMath = { fg = white },
+	TSType = { fg = yellow },
+	TSTypeBuiltin = { fg = yellow },
+	TSTypeQualifier = { fg = orange },
+	-- TSURI = { fg = white },
+	TSVariable = { fg = dslight2 },
+	TSVariableBuiltin = { fg = orange },
+	-- pythonTSVariable = { fg = white },
+	-- pythonTSDecorator = { fg = white },
+	-- rustTSVariable = { fg = white },
+	-- javascriptTSConditional = { fg = white },
+	-- javascriptTSVariable = { fg = white },
+
 
 	--[[ 4.4.9. barbar.nvim ]]
 	BufferCurrent       = 'TabLineSel',
