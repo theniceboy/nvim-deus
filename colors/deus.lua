@@ -1039,22 +1039,22 @@ local highlight_groups = {
 ]]
 
 local terminal_ansi_colors = {
-	[1]  = black,
-	[2]  = red_dark,
-	[3]  = green_dark,
-	[4]  = orange,
-	[5]  = blue,
-	[6]  = magenta_dark,
-	[7]  = teal,
-	[8]  = gray,
-	[9]  = gray_dark,
-	[10] = red,
-	[11] = green,
-	[12] = yellow,
-	[13] = turqoise,
-	[14] = purple,
-	[15] = cyan,
-	[16] = gray_light
+	-- [1]  = black,
+	-- [2]  = red_dark,
+	-- [3]  = green_dark,
+	-- [4]  = orange,
+	-- [5]  = blue,
+	-- [6]  = magenta_dark,
+	-- [7]  = teal,
+	-- [8]  = gray,
+	-- [9]  = gray_dark,
+	-- [10] = red,
+	-- [11] = green,
+	-- [12] = yellow,
+	-- [13] = turqoise,
+	-- [14] = purple,
+	-- [15] = cyan,
+	-- [16] = gray_light
 }
 
 --[[ Step 5: Sourcing
