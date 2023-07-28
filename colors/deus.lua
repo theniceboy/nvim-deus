@@ -944,7 +944,7 @@ local highlight_groups = {
 	-- TSStringRegex = { fg = white },
 	-- TSStructure = { fg = white },
 	-- TSSymbol = { fg = white },
-	-- TSTag = { fg = white },
+	TSTag = { fg = red },
 	-- TSTagDelimiter = { fg = white },
 	-- TSText = { fg = white },
 	-- TSStrike = { fg = white },
