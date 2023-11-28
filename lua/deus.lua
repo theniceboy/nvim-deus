@@ -28,8 +28,7 @@ local _TYPE_TABLE  = 'table'
 
 -- Determine which set of colors to use.
 local _USE_HEX = go.termguicolors
-local _USE_256 = tonumber(go.t_Co) > 255
-	or string.find(vim.env.TERM, '256')
+local _USE_256 = string.find(vim.env.TERM, '256')
 
 --[[
 	/*
@@ -187,7 +186,7 @@ return setmetatable(highlite, {['__call'] = function(self, normal, highlights, t
 	color_name = nil
 
 	-- If we aren't using hex nor 256 colorsets.
-	if not (_USE_HEX or _USE_256) then go.t_Co = '16' end
+	if not (_USE_HEX or _USE_256) then vim.cmd('set notermguicolors')  end
 
 	-- Highlight the baseline.
 	self.highlight('Normal', normal)
