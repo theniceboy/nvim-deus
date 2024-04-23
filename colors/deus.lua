@@ -103,6 +103,7 @@ vim.cmd([[
 	highlight! link @keyword.return TSKeywordReturn
 	highlight! link @keyword.function TSKeywordFunction
 	highlight! link @keyword.operator TSKeywordOperator
+	highlight! link @keyword.modifier TSKeywordModifier
 	highlight! link @label TSLabel
 	highlight! link @method TSMethod
 	highlight! link @namespace TSNamespace
@@ -924,6 +925,7 @@ local highlight_groups = {
 	TSKeywordReturn = { fg = red },
 	TSKeywordFunction = { fg = red },
 	TSKeywordOperator = { fg = red },
+	TSKeywordModifier = { fg = orange },
 	-- TSLabel = { fg = white },
 	TSMethod = { fg = green, style = 'bold' },
 	-- TSNamespace = { fg = white },
